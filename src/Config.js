@@ -1,13 +1,15 @@
 // Load & update the AWS SDK
-const AWS = require('aws-sdk'),
+var AWS = require('aws-sdk'),
     region = "us-east-1",
     secretName = "big-easy",
     secret,
     decodedBinarySecret;
 
-AWS.config.update({region});
+AWS.config.update({ region });
 
-// Create a Secrets Manager client
-const client = new AWS.SecretsManager({
-    region: region
-});
+exports.sdkPack = {
+  aws: AWS,
+  secretName: secretName,
+  client: new AWS.SecretsManager({ region }),
+  kinesis: new AWS.Kinesis()
+};

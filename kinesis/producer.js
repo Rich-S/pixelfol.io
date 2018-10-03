@@ -1,7 +1,8 @@
 const kinesis = require('../src/Config.js').sdkPack.kinesis;
 
 const streamName = "iex-live",
-  numberOfPartitions = 20;
+  //  Number of shards
+  numberOfPartitions = 10;
 
 exports.producerFunction =  function(data) {
   let partitionKeyNumber = Math.floor(Math.random() * numberOfPartitions);

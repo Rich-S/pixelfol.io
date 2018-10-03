@@ -44,7 +44,10 @@ client.getSecretValue({SecretId: secretName}, function(err, data) {
   socket.on('connection', function(socket) {
      console.log('A guest client connected');
   });
-  socket.on('message', (message) => produceIntoStream(JSON.stringify(message)));
+  socket.on('message', (message) => {
+    let data = new Buffer(JSON.stringify(message))
+    produceIntoStream(data); 
+  });
   socket.on('connect', () => {
   	//	Subscribe to topics (i.e. appl,fb,aig+)
   socket.emit('subscribe', 'firehose')

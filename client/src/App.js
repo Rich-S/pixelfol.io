@@ -8,6 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     fetchUniverse();
+    console.log(localStorage.universe)
   }
   render() {
     return (

@@ -15,11 +15,13 @@ class SymbolsStore extends EventEmitter {
   _registerToActions(action) {
     switch(action.actionType) {
       case ActionTypes.ADD_NEW_ITEM:
-      this._addNewItem(action.payload);
-      break;
+        this._addNewItem(action.payload);
+        break;
       case ActionTypes.REMOVE_ITEM:
-      this._removeItem(action.payload);
-      break;
+        this._removeItem(action.payload);
+        break;
+      default:
+        break;
     }
   }
   // Adds a new item to the list and emits a CHANGED event.

@@ -12,7 +12,7 @@ class SearchBarContainer extends React.Component {
     this.setState({text: event.target.value});
   }
   handleSubmit(event) {
-    if(event.keyCode == 13) {
+    if(event.keyCode === 13) {
       let text = this.state.text;
       symbolsActions.addNewItem(text, () => this.setState({ text: "" }));
     }

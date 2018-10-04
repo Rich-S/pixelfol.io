@@ -31,8 +31,9 @@ class MatrixContainer extends React.Component {
   }
   cellRenderer ({ columnIndex, key, rowIndex, style }) {
     let item = this.state.universe[rowIndex][columnIndex] ? this.state.universe[rowIndex][columnIndex].symbol : '';
-    let backgroundColor = this.state.items.includes(item) ? 'blue' : 'black';
-    let _style = Object.assign({backgroundColor: backgroundColor}, style);
+    let color = ["red", "green"][Math.floor(Math.random()*2)];
+    let backgroundColor = this.state.items.includes(item) ? color : 'white';
+    let _style = Object.assign({backgroundColor: backgroundColor, border: '1px solid darkgray', color: 'none'}, style);
     return (
       <GridContainer
         key={key}
@@ -49,11 +50,11 @@ class MatrixContainer extends React.Component {
           ref={this.Grid}
           cellRenderer={this.cellRenderer}
           columnCount={this.state.universe[0].length}
-          columnWidth={10}
+          columnWidth={20}
           height={1000}
           rowCount={this.state.universe.length}
-          rowHeight={10}
-          width={1000}
+          rowHeight={20}
+          width={1200}
           overscanRowCount={0}
         />
     } else {

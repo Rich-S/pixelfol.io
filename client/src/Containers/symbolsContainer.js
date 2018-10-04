@@ -7,6 +7,7 @@ class SymbolsContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+        keys: SymbolsStore.getAllKeys(),
         items: SymbolsStore.getAllItems()
     };
     this._onChange = this._onChange.bind(this);
@@ -26,9 +27,9 @@ class SymbolsContainer extends React.Component {
   }
   render() {
     return (
-      <section>
+      <section id={this.props.id}>
         <Symbols
-          items={this.state.items}
+          items={this.state.keys}
           _onClick={this._onClick}
           />
       </section>

@@ -14,7 +14,7 @@ class SearchBarContainer extends React.Component {
   handleSubmit(event) {
     if(event.keyCode === 13) {
       let text = this.state.text;
-      symbolsActions.addNewItem(text, () => this.setState({ text: "" }));
+      this.setState({ text: "" },symbolsActions.addNewItem(text))
     }
   }
   render() {

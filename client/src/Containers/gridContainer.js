@@ -10,7 +10,7 @@ class GridContainer extends React.Component {
       <div
         style={this.props.style}
       >
-        {this.props.item}
+        
       </div>
     )
   }

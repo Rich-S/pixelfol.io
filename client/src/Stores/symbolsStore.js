@@ -4,6 +4,12 @@ import ActionTypes from '../Constants';
 
 const CHANGE = 'CHANGE';
 let symbols = [];
+let fundKeys = [];
+let playData = {
+  "AAA": ["AAPL", "ABT", "ABBV", "ACHN", "ZTS", "JBSS", "MORN"],
+  "BBB": ["AMZN", "CERN", "CMCSA", "DAL", "GIS", "KB", "MO", "T", "TU", "VRTX", "XLNX"],
+  "CCC": ["FB", "GE", "GOOGL", "HD", "LVS", "MON", "MSFT", "TSLA", "V", "VZ", "XOM", "AGN", "AZO", "CRM", "CVS", "GOOG", "GILD", "MMM", "MNST", "NKE", "PYPL", "JPM", "SBUX"]
+};
 
 class SymbolsStore extends EventEmitter {
   constructor() {
@@ -26,45 +32,22 @@ class SymbolsStore extends EventEmitter {
   }
   // Adds a new item to the list and emits a CHANGED event.
   _addNewItem(item) {
-    symbols = {"AAAGX": [
-    "LVS",
-    "ABT",
-    "XLNX",
-    "VRTX",
-    "DAL",
-    "CERN",
-    "CMCSA",
-    "MSFT",
-    "MMM",
-    "NKE",
-    "CVS",
-    "PYPL",
-    "JPM",
-    "SBUX",
-    "GOOG",
-    "AZO",
-    "AGN",
-    "CRM",
-    "GILD",
-    "HD",
-    "AAPL",
-    "GOOGL",
-    "V",
-    "FB",
-    "AMZN"
-  ]}[item];
-    //symbols.push(item);
+    playData[item].forEach(d=>symbols.push(d));
+    fundKeys.push(item);
     this.emit(CHANGE);
   }
   // Removes the item from the list and emits a CHANGED event.
   _removeItem(item) {
-    symbols = [];
-    //symbols.splice(symbols.indexOf(item), 1);
+    symbols = arr_diff(symbols, playData[item]);
+    fundKeys.splice(fundKeys.indexOf(item), 1);
     this.emit(CHANGE);
   }
   // Returns the current store's state.
   getAllItems() {
     return symbols;
+  }
+  getAllKeys() {
+    return fundKeys;
   }
   // Hooks a React component's callback to the CHANGED event.
   addChangeListener(callback) {
@@ -77,3 +60,27 @@ class SymbolsStore extends EventEmitter {
 }
 
 export default new SymbolsStore();
+
+
+function arr_diff (a1, a2) {
+
+    var a = [], diff = [];
+
+    for (var i = 0; i < a1.length; i++) {
+        a[a1[i]] = true;
+    }
+
+    for (var i = 0; i < a2.length; i++) {
+        if (a[a2[i]]) {
+            delete a[a2[i]];
+        } else {
+            a[a2[i]] = true;
+        }
+    }
+
+    for (var k in a) {
+        diff.push(k);
+    }
+
+    return diff;
+}

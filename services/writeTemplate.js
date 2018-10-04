@@ -1,27 +1,18 @@
-const universe = require('./universe.js').universe();
+const fetchUniverse = require('./fetchUniverse.js').fetchUniverse;
 
-let template = {
-  symbol: null,
-  name: null,
-  sector: null,
-  bidSize: null,
-  yield: null,
-  askSize: null,
-  lastSalePrice: null,
-  volume: null,
-  marketPercent: null,
-  funds: null
+const writeTemplate = () => {
+  let objectKeys = ["symbol", "name", "sector", "bidSize", "askSize", "yield", "lastSalePrice", "volume", "marketPercent", "funds"];
+  return fetchUniverse()
+    .then( array => {
+      return array.map( obj => {
+        let template = {};
+        objectKeys.forEach(key => template[key] = obj[key]);
+        return template;
+      });
+    });
 };
 
-universe.then( array => {
-  array.map( obj => {
-    ["symbol", "name"].forEach(k => {
-      template[k] = obj[k]
-      console.log(template)
-    })
-  });
-});
-
+exports.writeTemplate = writeTemplate;
 /*
 {
   symbol: "STOCK",

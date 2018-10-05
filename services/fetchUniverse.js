@@ -8,4 +8,14 @@ const fetchUniverse = () => {
 };
 
 exports.fetchUniverse = fetchUniverse;
-//      //localStorage.setItem('universe', JSON.stringify(data));
+
+
+/*
+api returns array of objects:
+[ { symbol: 'AEO',
+    name: 'American Eagle Outfitters Inc.',
+    date: '2018-10-04',
+    isEnabled: true,
+    type: 'cs',
+    iexId: '121' }, ... ]
+*/

@@ -4,9 +4,10 @@ const kinesis = sdkPack.kinesis;
 const dynamo = sdkPack.dynamo;
 
 const streamName = "iex-live";
+const tableName = 'iex-live-transactions';
 
-function writeIntoDynamo(seqNo, record) {
-  let params = { Item: { id: seqNo, Record: record }, TableName: 'stream_data' };
+function writeIntoDynamo(timestamp, record) {
+  let params = { Item: { timestamp: timestamp, Record: record }, TableName: tableName };
   dynamo.put(params, function(err,data){ if (err) { console.log(err) } else { console.log(data)}});
 }
 
@@ -39,6 +40,7 @@ function consumerFunction() {
                   let arrayOfObjects = records.map(d => d.Data).map(_d => deBuffer(_d));
                   // write into dynamo
                   console.log(arrayOfObjects) //  successful response
+                  arrayOfObjects.forEach(obj => writeIntoDynamo(Date.now(),obj))
                 }
               }
             });

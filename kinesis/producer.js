@@ -15,6 +15,7 @@ exports.producerFunction = function(data) {
     	console.log(err, err.stack); // an error occurred
     } else {
     	console.log(data); // successful response
+      
     }
   });
 }

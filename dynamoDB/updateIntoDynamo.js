@@ -1,25 +1,34 @@
 const db = require('../src/Config.js').sdkPack.db;
 
 const tableName = "iex-stock-universe";
-const symbol = 'AEYE';
 
-var params = {
-  TableName: tableName,
-  Key: {
-    symbol: { "S": symbol }
-  },
-  UpdateExpression: "ADD trades :trades, bidSize :bidSize, askSize :askSize",
-  ExpressionAttributeValues: {
-    ":trades"   : { "N" : "1" },
-    ":bidSize"  : { "N" : "1" },
-    ":askSize"  : { "N" : "1" }
-  },
-  ReturnValues:"UPDATED_NEW"
-};
+function updateIntoDynamo(payload, tableName) {
+  let symbol = payload.symbol,
+    bidSize = String(payload.bidSize),
+    askSize = String(payload.askSize),
+    volume = String(payload.volume),
+    sector = String(payload.sector),
+    lastSalePrice = String(payload.lastSalePrice);
+  let params = {
+    TableName: tableName,
+    Key: {
+      symbol: { "S": symbol }
+    },
+    UpdateExpression: "ADD trades :trades, bidSize :bidSize, askSize :askSize, volume :volume, lastSalePrice :lastSalePrice",
+    ExpressionAttributeValues: {
+      ":trades"   : { "N" : "1" },
+      ":bidSize"  : { "N" : bidSize },
+      ":askSize"  : { "N" : askSize },
+      ":volume"   : { "N" : volume },
 
-db.updateItem(params,(err,d) => err ? console.log(err) : console.log(d));
+      ":lastSalePrice"  : { "N" : lastSalePrice },
+    },
+    ReturnValues:"UPDATED_NEW"
+  };
+  db.updateItem(params,(err,d) => err ? console.log(err) : console.log(d));
+}
 
-
+exports.updateIntoDynamo = updateIntoDynamo;
 
 
 /*

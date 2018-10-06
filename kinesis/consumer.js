@@ -1,15 +1,12 @@
 const sdkPack = require('../src/Config.js').sdkPack;
 const deBuffer = require('../services/deBuffer.js').deBuffer;
 const kinesis = sdkPack.kinesis;
-const dynamo = sdkPack.dynamo;
+const updateIntoDynamo = require('../dynamoDB/updateIntoDynamo.js').updateIntoDynamo;
 
 const streamName = "iex-live";
-const tableName = 'iex-transactions-stream';
+const tableName = 'iex-stock-universe';
 
-function writeIntoDynamo(obj, record) {
-  let params = { Item: { symbol: obj, Record: record }, TableName: tableName };
-  dynamo.put(params, function(err, data){ if (err) { console.log(err) } else { console.log(data)}});
-}
+
 
 function consumerFunction() {
   kinesis.describeStream({ StreamName: streamName }, function(err, streamData) {
@@ -37,10 +34,10 @@ function consumerFunction() {
               else {
                 let records = recordsData.Records;
                 if (records.length > 0) {
-                  let arrayOfObjects = records.map(d => d.Data).map(_d => deBuffer(_d));
+                  let arrayOfObjects = records.map(d => d.Data).map(_d => deBuffer(_d)).filter(d=>d.securityType === 'commonstock');
                   // write into dynamo
-                  console.log(arrayOfObjects) //  successful response
-                  arrayOfObjects.forEach(obj => writeIntoDynamo(obj.symbol, obj))
+                  // console.log(arrayOfObjects) //  successful response
+                  arrayOfObjects.forEach(obj => updateIntoDynamo(obj,tableName))
                 }
               }
             });
@@ -52,3 +49,19 @@ function consumerFunction() {
 }
 
 consumerFunction()
+/*
+{ symbol: 'SAUC',
+   sector: 'consumerservices',
+   securityType: 'commonstock',
+   bidPrice: 0,
+   bidSize: 0,
+   askPrice: 0,
+   askSize: 0,
+   lastUpdated: 1538769600000,
+   lastSalePrice: 1.34,
+   lastSaleSize: 100,
+   lastSaleTime: 1538767105068,
+   volume: 200,
+   marketPercent: 0.00168,
+   seq: 13 },
+*/

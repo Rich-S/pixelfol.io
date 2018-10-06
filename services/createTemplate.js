@@ -10,7 +10,7 @@ const createTemplate = () => {
           Item: {
             symbol: obj["symbol"],
             name: obj["name"],
-            sector: obj["sector"],
+            sector: 'n/a',
             bidSize: 0,
             askSize: 0,
             yield: 0,

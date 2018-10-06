@@ -6,9 +6,9 @@ const tableNameA = 'iex-stock-universe';
 const tableNameB = 'fund-universe';
 
 
-every morning
+//  every morning
 createTemplate()
   .then( allListedStocks => allListedStocks.forEach( securityPayload => writeIntoDynamo(securityPayload, tableNameA)))
 
-createHoldingsTemplate()
-  .then( allFundsAndHoldings => allFundsAndHoldings.forEach( fundPayload => writeIntoDynamo(fundPayload, tableNameB) ))
+// createHoldingsTemplate()
+//  .then( allFundsAndHoldings => allFundsAndHoldings.forEach( fundPayload => writeIntoDynamo(fundPayload, tableNameB) ))

@@ -12,5 +12,6 @@ exports.sdkPack = {
   secretName: secretName,
   client: new AWS.SecretsManager({ region }),
   kinesis: new AWS.Kinesis(),
-  dynamo: new AWS.DynamoDB.DocumentClient()
+  dynamo: new AWS.DynamoDB.DocumentClient(),
+  db: new AWS.DynamoDB()
 };

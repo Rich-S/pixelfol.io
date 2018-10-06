@@ -3,6 +3,7 @@ const axios = require('axios');
 const fetchUniverse = () => {
   let api = 'https://api.iextrading.com/1.0/ref-data/symbols';
   return axios.get(api)
+    // we only want equities, filtered by 'cs'-type
     .then(response => response.data.filter(obj => obj.type === 'cs'))
     .catch(error => console.log(error));
 };

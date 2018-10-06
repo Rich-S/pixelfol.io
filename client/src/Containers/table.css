@@ -1,0 +1,9 @@
+.spark-table > div {
+  border-bottom: 1px solid gainsboro;
+}
+
+canvas {
+  display: inline-block;
+  float: none;
+  vertical-align: middle;
+}

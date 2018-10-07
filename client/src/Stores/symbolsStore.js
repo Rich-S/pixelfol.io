@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import Dispatcher from '../Dispatchers';
 import ActionTypes from '../Constants';
+import toMatrix from '../Utilities/toMatrix';
 
 const CHANGE = 'CHANGE';
 let symbols = [];
@@ -41,6 +42,9 @@ class SymbolsStore extends EventEmitter {
     symbols = arr_diff(symbols, playData[item]);
     fundKeys.splice(fundKeys.indexOf(item), 1);
     this.emit(CHANGE);
+  }
+  getUniverse() {
+    return toMatrix(JSON.parse(localStorage.universe), 100);
   }
   // Returns the current store's state.
   getAllItems() {

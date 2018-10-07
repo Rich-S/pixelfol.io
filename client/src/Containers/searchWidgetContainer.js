@@ -1,9 +1,12 @@
 import React from 'react';
-import './searchWidgetContainer.css';
 import SearchBarContainer from './searchBarContainer';
 import SymbolsContainer from './symbolsContainer';
+import './searchWidgetContainer.css';
 
 class SearchWidgetContainer extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <div id='main-app-searchwidget'>

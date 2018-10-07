@@ -1,18 +1,17 @@
 import React from 'react';
 import SymbolsStore from '../Stores/symbolsStore';
-import toMatrix from '../Utilities/toMatrix';
 import GridContainer from '../Containers/gridContainer';
 import { Grid } from 'react-virtualized';
-
-const universe = toMatrix(JSON.parse(localStorage.universe), 100);
 
 class MatrixContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      universe: null,
+      universe: SymbolsStore.getUniverse(),
       items: SymbolsStore.getAllItems()
     };
+    this.Matrix = React.createRef();
+    //  There are two refs in this script - the Grid refers to the react-virtualized component with the embedded dispatcher behavior
     this.Grid = React.createRef();
     this._onChange = this._onChange.bind(this);
     this.cellRenderer = this.cellRenderer.bind(this);
@@ -27,14 +26,14 @@ class MatrixContainer extends React.Component {
     SymbolsStore.removeChangeListener(this._onChange);
   }
   componentDidMount() {
-    this.setState({universe: universe})
+  //  this.setState({universe: universe})//, width: this.Matrix.current.clientWidth, height: this.Matrix.current.clientHeight})
   }
   cellRenderer ({ columnIndex, key, rowIndex, style }) {
     let item = this.state.universe[rowIndex][columnIndex] ? this.state.universe[rowIndex][columnIndex].symbol : '';
     let color = ["red", "green"][Math.floor(Math.random()*2)];
     let backgroundColor = this.state.items.includes(item) ? color : 'white';
     //let backgroundColor = this.state.items.includes(item) ? color : 'white';
-    let _style = Object.assign({backgroundColor: backgroundColor, border: '1px solid darkgray', color: 'none'}, style);
+    let _style = Object.assign({backgroundColor: backgroundColor, border: '1px solid ' + this.props.gridColor, color: 'none'}, style);
     return (
       <GridContainer
         key={key}
@@ -47,17 +46,19 @@ class MatrixContainer extends React.Component {
     const isDataFetched = this.state.universe;
     let component;
     if (isDataFetched) {
-      component =  <Grid
+      component = (<div>
+        <Grid
           ref={this.Grid}
           cellRenderer={this.cellRenderer}
-          columnCount={this.state.universe[0].length}
+          columnCount={50}//{this.state.universe[0].length}
           columnWidth={20}
-          height={600}
-          rowCount={this.state.universe.length}
+          width={this.props.width}
+          height={this.props.height * .8}
+          rowCount={50}//{this.state.universe.length}
           rowHeight={20}
-          width={700}
           overscanRowCount={0}
         />
+        </div>)
     } else {
       component = <div> </div>
     }
@@ -67,4 +68,4 @@ class MatrixContainer extends React.Component {
   }
 }
 
-export default MatrixContainer
+export default MatrixContainer;

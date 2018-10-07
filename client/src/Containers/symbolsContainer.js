@@ -27,12 +27,12 @@ class SymbolsContainer extends React.Component {
   }
   render() {
     return (
-      <section id={this.props.id}>
+      <div id={this.props.id}>
         <Symbols
           items={this.state.keys}
           _onClick={this._onClick}
           />
-      </section>
+      </div>
     )
   }
 }

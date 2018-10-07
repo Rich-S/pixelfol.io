@@ -1,22 +1,33 @@
 div#main-app-searchwidget {
   display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: center;
 }
 
-div#main-app-searchwidget div#searchbar-container {
-  padding-top: 5vh;
+div#main-app-searchwidget {
+  height: 12.5vh;
+}
+
+div#searchbar-container {
+  width: 50vw;
+  /* padding-top: 5vh;
   padding-bottom: 5vh;
-  margin: 1%;
+  margin: 1%; */
 }
-
-div#main-app-searchwidget section#watchlist {
+div#watchlist {
+  width: 47vw;
+  height: 12.25vh;
+  margin: none;
   overflow-y: scroll;
-  margin: 1%;
 }
 
 input[type=text],
 select,
 textarea {
-  font-size: 4em;
+  font-size: 3em;
+  width: 50vw;
+  height: 12.25vh;
   border: none;
   box-sizing: border-box;
   outline: none;

@@ -11,7 +11,8 @@ export default class extends React.Component {
     this.state = {
       data: SymbolsStore.getAllItems(),
       asc: true
-    }
+    };
+    this.Table = React.createRef();
     this._onChange = this._onChange.bind(this);
   }
   _onChange() {
@@ -23,37 +24,42 @@ export default class extends React.Component {
   componentWillUnmount() {
     SymbolsStore.removeChangeListener(this._onChange);
   }
+  componentDidMount() {
+    this.setState({ width: this.Table.current.clientWidth, height: this.Table.current.clientHeight })
+  }
   render() {
-    let data = this.state.data;
-    console.log(data)
-    return (
-      <div>
+    const inheritedDimensions = this.state.width;
+    if (inheritedDimensions) {
+      let data = this.state.data;
+      return (
         <Table
-          className={'spark-table'}
-          width={500}
-          height={600}
+          className={this.props.className}
+          width={this.state.width}
+          height={this.state.height}
           headerHeight={50}
           rowHeight={25}
           rowCount={data.length}
           rowGetter={({ index }) => data[index]}
           sortDirection={this.state.sortDirection}
-          //sortDirection={this.state.sortDirection}
+          ref={this.Table}
           >
-          <Column
-            label='ticker'
-            dataKey='symbol'
-            width={100}
-            />
-          <Column
-            label='company'
-            dataKey='name'
-            width={300}
-            />
+        <Column
+          label='ticker'
+          dataKey='symbol'
+          width={100}
+          />
+        <Column
+          label='company'
+          dataKey='name'
+          width={300}
+          />
         </Table>
-      </div>
-    )
+      )
+    }
+    else {
+      return (<div className={this.props.className} ref={this.Table} ></div>);
+    }
   }
-
 }
 /*
 export default (props) => {

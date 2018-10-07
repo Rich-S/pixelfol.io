@@ -1,13 +1,18 @@
 ol {
   display: flex;
+  height: 12.5vh;
   flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 li {
-  font-size: 1.5em;
+  font-size: 1em;
   box-sizing: border-box;
   background-color: gainsboro;
-  margin: .5em .5em 0 0;
-  padding: .75em;
+  margin: .2em;
+  padding: .2em;
 }

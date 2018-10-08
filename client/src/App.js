@@ -9,7 +9,7 @@ import Table from './Containers/table';
 class App extends Component {
   constructor(props) {
     super(props);
-    fetchUniverse();
+    //fetchUniverse();
   }
   render() {
     return (

@@ -37,7 +37,7 @@ class MatrixSlider extends Component {
               <MatrixContainer gridColor={"blue"} width={this.state.width} height={this.state.height}/>
             </div>
             <div>
-              <MatrixContainer gridColor={"yellow"} width={this.state.width} height={this.state.height}/>
+              <MatrixContainer gridColor={"gainsboro"} width={this.state.width} height={this.state.height}/>
             </div>
             <div>
               <MatrixContainer gridColor={"purple"} width={this.state.width} height={this.state.height}/>
@@ -49,7 +49,7 @@ class MatrixSlider extends Component {
               <MatrixContainer gridColor={"black"} width={this.state.width} height={this.state.height}/>
             </div>
             <div>
-              <MatrixContainer gridColor={"white"} width={this.state.width} height={this.state.height}/>
+              <MatrixContainer gridColor={"blueviolet"} width={this.state.width} height={this.state.height}/>
             </div>
           </Slider>
         </div>

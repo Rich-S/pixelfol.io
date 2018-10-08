@@ -1,3 +1,8 @@
+* {
+  color: lightgray;
+  background: #383838;
+}
+
 div {
   margin: 0;
   padding: 0;
@@ -19,15 +24,12 @@ div.App-Partition-B {
 .Widget {
   width: 97.5vw;
   height: 12.5vh;
-  background: skyblue;
 }
 .Matrix {
   width: 40vw;
   height: 85vh;
-  background: gainsboro;
 }
 .Table {
   width: 57.5vw;
   height: 85vh;
-  background: lavender;
 }

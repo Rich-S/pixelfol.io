@@ -1,4 +1,7 @@
 .slick-initialized {
-  margin-top: 7vh;
   padding: none;
+}
+
+li > button {
+  background: white;
 }

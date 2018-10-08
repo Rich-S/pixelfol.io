@@ -2,15 +2,13 @@ import { EventEmitter } from 'events';
 import Dispatcher from '../Dispatchers';
 import ActionTypes from '../Constants';
 import toMatrix from '../Utilities/toMatrix';
+import calcGridFit from '../Utilities/calcGridFit';
 
+const fundHoldings = require('../assets/fundHoldings.json');
 const CHANGE = 'CHANGE';
+
 let symbols = [];
 let fundKeys = [];
-let playData = {
-  "AAA": ["AAPL", "ABT", "ABBV", "ACHN", "ZTS", "JBSS", "MORN"],
-  "BBB": ["AMZN", "CERN", "CMCSA", "DAL", "GIS", "KB", "MO", "T", "TU", "VRTX", "XLNX"],
-  "CCC": ["FB", "GE", "GOOGL", "HD", "LVS", "MON", "MSFT", "TSLA", "V", "VZ", "XOM", "AGN", "AZO", "CRM", "CVS", "GOOG", "GILD", "MMM", "MNST", "NKE", "PYPL", "JPM", "SBUX"]
-};
 
 class SymbolsStore extends EventEmitter {
   constructor() {
@@ -33,18 +31,25 @@ class SymbolsStore extends EventEmitter {
   }
   // Adds a new item to the list and emits a CHANGED event.
   _addNewItem(item) {
-    playData[item].forEach(d=>symbols.push(d));
+    fundHoldings[item].forEach(d=>symbols.push(d));
     fundKeys.push(item);
     this.emit(CHANGE);
   }
   // Removes the item from the list and emits a CHANGED event.
   _removeItem(item) {
-    symbols = arr_diff(symbols, playData[item]);
+    symbols = arr_diff(symbols, fundHoldings[item]);
     fundKeys.splice(fundKeys.indexOf(item), 1);
     this.emit(CHANGE);
   }
   getUniverse() {
-    return toMatrix(JSON.parse(localStorage.universe), 100);
+    let allCaps = ['nano', 'micro', 'small', 'mid', 'large', 'mega'].map(d => JSON.parse(localStorage[d]))
+    return [].concat.apply([], allCaps);
+    //return JSON.parse(localStorage.universe);
+  }
+  getCap(capSize, width, height) {
+    let data = JSON.parse(localStorage[capSize]);
+    let dimension = Math.ceil(Math.sqrt(data.length));
+    return { data: toMatrix(data, dimension), fit: dimension };
   }
   // Returns the current store's state.
   getAllItems() {

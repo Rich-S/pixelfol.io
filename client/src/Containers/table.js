@@ -9,14 +9,22 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: SymbolsStore.getAllItems(),
-      asc: true
+      data: SymbolsStore.getUniverse(),//SymbolsStore.getAllItems(),
+      asc: true,
+      stylesheet: {
+        symbol: 1/8,
+        name: 3/8,
+        lastSalePrice: 1/8,
+        bidSize: 1/8,
+        askSize: 1/8,
+        volume: 1/8
+      }
     };
     this.Table = React.createRef();
     this._onChange = this._onChange.bind(this);
   }
   _onChange() {
-    this.setState({ data: SymbolsStore.getAllItems().map(d=>{return {symbol: d}}), });
+    this.setState({ data: (SymbolsStore.getAllItems().length > 0) ? SymbolsStore.getUniverse().filter(d=> SymbolsStore.getAllItems().includes(d.symbol)) : SymbolsStore.getUniverse() });
   }
   componentWillMount() {
     SymbolsStore.addChangeListener(this._onChange);
@@ -28,6 +36,7 @@ export default class extends React.Component {
     this.setState({ width: this.Table.current.clientWidth, height: this.Table.current.clientHeight })
   }
   render() {
+    console.log(this.state.data[0])
     const inheritedDimensions = this.state.width;
     if (inheritedDimensions) {
       let data = this.state.data;
@@ -46,12 +55,32 @@ export default class extends React.Component {
         <Column
           label='ticker'
           dataKey='symbol'
-          width={100}
+          width={this.state.width * this.state.stylesheet['symbol']}
           />
         <Column
           label='company'
           dataKey='name'
-          width={300}
+          width={this.state.width * this.state.stylesheet['name']}
+          />
+        <Column
+          label='lastSalePrice'
+          dataKey='lastSalePrice'
+          width={this.state.width * this.state.stylesheet['lastSalePrice']}
+          />
+        <Column
+          label='bidSize'
+          dataKey='bidSize'
+          width={this.state.width * this.state.stylesheet['bidSize']}
+          />
+        <Column
+          label='askSize'
+          dataKey='askSize'
+          width={this.state.width * this.state.stylesheet['askSize']}
+          />
+        <Column
+          label='volume'
+          dataKey='volume'
+          width={this.state.width * this.state.stylesheet['volume']}
           />
         </Table>
       )
@@ -131,7 +160,7 @@ export default (props) => {
     </div>
   )
 }
-*/
+
 function dynamicSort(property) {
     var sortOrder = 1;
     if(property[0] === "-") {
@@ -143,5 +172,5 @@ function dynamicSort(property) {
         return result * sortOrder;
     }
 }
-
+*/
 //https://github.com/bvaughn/react-virtualized/issues/817

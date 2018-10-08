@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import './App.css'
-import fetchUniverse from './Utilities/fetchUniverse';
 import WidgetContainer from './Containers/widgetContainer';
 import MatrixSlider from './Containers/MatrixSlider';
 import Table from './Containers/table';
-
+import fetchByCapSize from './Services/fetchByCapSize';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    //fetchUniverse();
+    ['nano', 'micro', 'small', 'mid', 'large', 'mega'].forEach( cap =>
+      fetchByCapSize(cap, (err, res) => err ? console.log(err) : localStorage.setItem(cap, JSON.stringify(res.Items))))
   }
   render() {
     return (

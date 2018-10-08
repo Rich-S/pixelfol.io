@@ -13,6 +13,7 @@ class MatrixSlider extends Component {
     this.state = {
       settings: {
         dots: true,
+        centerMode: true,
         lazyLoad: true,
         arrows: false,
         adaptiveHeight: true,
@@ -34,22 +35,28 @@ class MatrixSlider extends Component {
         <div className={this.props.className} ref={this.Slider}>
           <Slider id={'slider'} {...this.state.settings}>
             <div>
-              <MatrixContainer gridColor={"blue"} width={this.state.width} height={this.state.height}/>
+              <h2 style={{color: "blue"}}>Mega Cap</h2>
+              <MatrixContainer cap={'mega'} gridColor={"blue"} width={this.state.width} height={this.state.height}/>
             </div>
             <div>
-              <MatrixContainer gridColor={"gainsboro"} width={this.state.width} height={this.state.height}/>
+              <h2 style={{color: "gainsboro"}}>Large Cap</h2>
+              <MatrixContainer cap={'large'} gridColor={"gainsboro"} width={this.state.width} height={this.state.height}/>
             </div>
             <div>
-              <MatrixContainer gridColor={"purple"} width={this.state.width} height={this.state.height}/>
+              <h2 style={{color: "purple"}}>Mid Cap</h2>
+              <MatrixContainer cap={'mid'} gridColor={"purple"} width={this.state.width} height={this.state.height}/>
             </div>
             <div>
-              <MatrixContainer gridColor={"orange"} width={this.state.width} height={this.state.height}/>
+              <h2 style={{color: "orange"}}>Small Cap</h2>
+              <MatrixContainer cap={'small'} gridColor={"orange"} width={this.state.width} height={this.state.height}/>
             </div>
             <div>
-              <MatrixContainer gridColor={"black"} width={this.state.width} height={this.state.height}/>
+              <h2 style={{color: "green"}}>Micro Cap</h2>
+              <MatrixContainer cap={'micro'} gridColor={"green"} width={this.state.width} height={this.state.height}/>
             </div>
             <div>
-              <MatrixContainer gridColor={"blueviolet"} width={this.state.width} height={this.state.height}/>
+              <h2 style={{color: "blueviolet"}}>Nano Cap</h2>
+              <MatrixContainer cap={'nano'} gridColor={"blueviolet"} data={localStorage.nano} width={this.state.width} height={this.state.height}/>
             </div>
           </Slider>
         </div>

@@ -8,13 +8,14 @@ const fundHoldings = require('../assets/fundHoldings.json');
 const CHANGE = 'CHANGE';
 
 let symbols = [];
-let fundKeys = [];
+let fundKeys = [];//['AWSHX', VISVX', 'VTSMX'];
 
 class SymbolsStore extends EventEmitter {
   constructor() {
     super();
     // Registers action handler with the Dispatcher.
     Dispatcher.register(this._registerToActions.bind(this));
+    this.emit(CHANGE)
   }
   // Switches over the action's type when an action is dispatched.
   _registerToActions(action) {

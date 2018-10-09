@@ -31,3 +31,7 @@ awsmobilejs/\#current-backend-info
 
 #env
 .env
+
+#firebase
+firebase.json
+.firebaserc

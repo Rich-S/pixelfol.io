@@ -46,7 +46,7 @@ client.getSecretValue({SecretId: secretName}, function(err, data) {
   });
   socket.on('message', (message) => {
     let data = new Buffer(JSON.stringify(message))
-    produceIntoStream(data); 
+    produceIntoStream(data);
   });
   socket.on('connect', () => {
   	//	Subscribe to topics (i.e. appl,fb,aig+)

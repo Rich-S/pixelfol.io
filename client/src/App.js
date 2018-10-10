@@ -8,8 +8,10 @@ import fetchByCapSize from './Services/fetchByCapSize';
 class App extends Component {
   constructor(props) {
     super(props);
-    ['nano', 'micro', 'small', 'mid', 'large', 'mega'].forEach( cap =>
-      fetchByCapSize(cap, (err, res) => err ? console.log(err) : localStorage.setItem(cap, JSON.stringify(res.Items))))
+    setInterval(()=>{
+      ['nano', 'micro', 'small', 'mid', 'large', 'mega'].forEach( cap =>
+        fetchByCapSize(cap, (err, res) => err ? console.log(err) : localStorage.setItem(cap, JSON.stringify(res.Items))));
+    },1000)
   }
   render() {
     return (

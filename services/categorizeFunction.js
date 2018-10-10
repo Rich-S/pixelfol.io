@@ -1,3 +1,5 @@
+// Function that determines the market cap given an integer argument 
+
 const categorizeFunction = (num) => {
   let _type;
   if (typeof(num) != 'number') _type = 'n/a';

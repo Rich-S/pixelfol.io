@@ -3,21 +3,25 @@ import { Column, Table } from 'react-virtualized';
 import './table.css';
 import SymbolsStore from '../Stores/symbolsStore';
 import 'react-virtualized/styles.css'
-
+import fetchByCapSize from '../Services/fetchByCapSize';
 
 export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: SymbolsStore.getUniverse(),//SymbolsStore.getAllItems(),
+      data: SymbolsStore.getUniverse().map(d=>{
+        let tick = ((d.bidSize === 0) || (d.askSize === 0)) ? 0 : (d.bidSize/d.askSize);
+        return Object.assign(d, {tick: tick});
+      }),
       asc: true,
       stylesheet: {
-        symbol: 1/8,
-        name: 3/8,
-        lastSalePrice: 1/8,
-        bidSize: 1/8,
-        askSize: 1/8,
-        volume: 1/8
+        symbol: 1/9,
+        name: 3/9,
+        tick: 1/9,
+        lastSalePrice: 1/9,
+        bidSize: 1/9,
+        askSize: 1/9,
+        volume: 1/9
       }
     };
     this.Table = React.createRef();
@@ -33,10 +37,14 @@ export default class extends React.Component {
     SymbolsStore.removeChangeListener(this._onChange);
   }
   componentDidMount() {
-    this.setState({ width: this.Table.current.clientWidth, height: this.Table.current.clientHeight })
+    setInterval(this.setState({ data: this.state.data, width: this.Table.current.clientWidth, height: this.Table.current.clientHeight }), 1200)
+  }
+  downloadData() {
+    ['nano', 'micro', 'small', 'mid', 'large', 'mega'].forEach( cap =>
+      fetchByCapSize(cap, (err, res) => err ? console.log(err) : localStorage.setItem(cap, JSON.stringify(res.Items))));
   }
   render() {
-    console.log(this.state.data[0])
+    console.log(this.state.data)
     const inheritedDimensions = this.state.width;
     if (inheritedDimensions) {
       let data = this.state.data;
@@ -51,6 +59,10 @@ export default class extends React.Component {
           rowGetter={({ index }) => data[index]}
           sortDirection={this.state.sortDirection}
           ref={this.Table}
+          sort={(d)=> {
+            data = (this.state.asc === true) ? data.sort(dynamicSort(d.sortBy)) : data.sort(dynamicSort(d.sortBy)).reverse();
+            this.setState({ data: data, asc: !this.state.asc })
+          }}
           >
         <Column
           label='ticker'
@@ -66,6 +78,12 @@ export default class extends React.Component {
           label='lastSalePrice'
           dataKey='lastSalePrice'
           width={this.state.width * this.state.stylesheet['lastSalePrice']}
+          />
+        <Column
+          label='tick'
+          dataKey='tick'
+          width={this.state.width * this.state.stylesheet['tick']}
+          cellRenderer ={({ cellData }) => <div style={{backgroundColor: perc2color(cellData), width: "1em", height: "1em"}}></div>}
           />
         <Column
           label='bidSize'
@@ -90,75 +108,21 @@ export default class extends React.Component {
     }
   }
 }
-/*
-export default (props) => {
-  let data = props.data;
-  function sort ({ sortBy, sortDirection }) {
-    this.setState({ sortBy, sortDirection })
-  }
-  return (
-    <div>
-      <Table
-        className={'spark-table'}
-        width={1600}
-        height={800}
-        headerHeight={50}
-        rowHeight={200}
-        rowCount={data.length}
-        rowGetter={({ index }) => props.data[index]}
-        sort={(d)=> { data = dynamicSort('ticker')})
 
-        //sortDirection={this.state.sortDirection}
-        >
-        <Column
-          label='ticker'
-          dataKey='ticker'
-          width={100}
-          />
-        <Column
-          label='company'
-          dataKey='name'
-          width={300}
-          />
-        <Column
-          label='hpr'
-          dataKey='trend'
-          width={50}
-          />
-        <Column
-          label='max hpr'
-          dataKey='max_hpr'
-          width={100}
-          />
-        <Column
-          label='max win streak'
-          dataKey='lis'
-          width={200}
-          />
-        <Column
-          label='days'
-          dataKey='lis_streak'
-          width={50}
-          />
-        <Column
-          label='max loss streak'
-          dataKey='lds'
-          width={200}
-          />
-        <Column
-          label='days'
-          dataKey='lds_streak'
-          width={50}
-          />
-        <Column
-          label='chart'
-          dataKey='sparks'
-          cellRenderer ={({ cellData }) => <Sketch imgURL={cellData} />}
-          width={500}
-          />
-      </Table>
-    </div>
-  )
+
+function perc2color(perc) {
+	var r, g, b = 0;
+	if(perc < .50) {
+		r = 255;
+		g = Math.round(5.1 * perc);
+	}
+	else {
+		g = 255;
+		r = Math.round(510 - 5.10 * perc);
+	}
+	var h = r * 0x10000 + g * 0x100 + b * 0x1;
+	if (perc === 0) { return "none" }
+  else { return '#' + ('000000' + h.toString(16)).slice(-6) };
 }
 
 function dynamicSort(property) {
@@ -172,5 +136,7 @@ function dynamicSort(property) {
         return result * sortOrder;
     }
 }
-*/
+
+
+
 //https://github.com/bvaughn/react-virtualized/issues/817

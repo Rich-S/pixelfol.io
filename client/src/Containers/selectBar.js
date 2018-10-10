@@ -1,30 +1,35 @@
 import React from 'react';
 import Select from 'react-select';
-
-const options = Object.keys(require('../assets/fundHoldings.json')).map(d=>{
-  return { value: d, label: d }
-});
+import symbolsActions from '../Actions/symbolsActions';
+const fundHoldings = require('../assets/fundHoldings.json');
 
 class SelectBar extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       selectedOption: null,
-    }
+    };
+    this.handleChange = this.handleChange.bind(this);
+    //this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
+  }
+  handleSubmit(event) {
+    if(event.keyCode === 13) {
+      let text = this.state.text;
+      this.setState({ text: "" }, symbolsActions.addNewItem(text))
+    }
   }
   render() {
     const { selectedOption } = this.state;
-
     return (
       <Select
         id={this.props.id}
         value={selectedOption}
         onChange={this.handleChange}
         options={options}
+        width={200}
       />
     );
   }

@@ -15,5 +15,3 @@ exports.sdkPack = {
   dynamo: new AWS.DynamoDB.DocumentClient(),
   db: new AWS.DynamoDB()
 };
-
-console.log(AWS)

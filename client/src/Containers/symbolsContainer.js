@@ -30,7 +30,6 @@ class SymbolsContainer extends React.Component {
       <div id={this.props.id}>
         <Symbols
           items={this.state.keys}
-          _onClick={this._onClick}
           />
       </div>
     )

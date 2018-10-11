@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import Dispatcher from '../Dispatchers';
 import ActionTypes from '../Constants';
 import toMatrix from '../Utilities/toMatrix';
-import calcGridFit from '../Utilities/calcGridFit';
+import removeElementsFromArray from '../Utilities/removeElementsFromArray';
 
 const fundHoldings = require('../assets/fundHoldings.json');
 const CHANGE = 'CHANGE';
@@ -40,12 +40,10 @@ class SymbolsStore extends EventEmitter {
   }
   // Removes the item from the list and emits a CHANGED event.
   _removeItem(item) {
-    symbols = arr_diff(symbols, fundHoldings[item]);
+    //  order matters in this function
+    removeElementsFromArray(fundHoldings[item], symbols);
     fundKeys.splice(fundKeys.indexOf(item), 1);
     this.emit(CHANGE);
-  }
-  fetchUniverse() {
-    
   }
   getUniverse() {
     let allCaps = ['nano', 'micro', 'small', 'mid', 'large', 'mega'].map(d => JSON.parse(localStorage[d]))
@@ -77,27 +75,3 @@ class SymbolsStore extends EventEmitter {
 }
 
 export default new SymbolsStore();
-
-
-function arr_diff (a1, a2) {
-
-    var a = [], diff = [];
-
-    for (var i = 0; i < a1.length; i++) {
-        a[a1[i]] = true;
-    }
-
-    for (var i = 0; i < a2.length; i++) {
-        if (a[a2[i]]) {
-            delete a[a2[i]];
-        } else {
-            a[a2[i]] = true;
-        }
-    }
-
-    for (var k in a) {
-        diff.push(k);
-    }
-
-    return diff;
-}

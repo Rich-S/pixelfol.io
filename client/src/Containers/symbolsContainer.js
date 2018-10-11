@@ -29,6 +29,7 @@ class SymbolsContainer extends React.Component {
     return (
       <div id={this.props.id}>
         <Symbols
+          _onClick={this._onClick}
           items={this.state.keys}
           />
       </div>

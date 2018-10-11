@@ -1,9 +1,9 @@
 import React from 'react';
 import { Column, Table } from 'react-virtualized';
-import './table.css';
 import SymbolsStore from '../Stores/symbolsStore';
+import colorGradientFunction from '../Utilities/colorGradientFunction';
+import './table.css';
 import 'react-virtualized/styles.css'
-import fetchByCapSize from '../Services/fetchByCapSize';
 
 export default class extends React.Component {
   constructor(props) {
@@ -34,11 +34,19 @@ export default class extends React.Component {
     SymbolsStore.removeChangeListener(this._onChange);
   }
   componentDidMount() {
-    setInterval(this.setState({ data: this.state.data, width: this.Table.current.clientWidth, height: this.Table.current.clientHeight }), 1200)
+    this.setState({ width: this.Table.current.clientWidth, height: this.Table.current.clientHeight });
   }
-  downloadData() {
-    ['nano', 'micro', 'small', 'mid', 'large', 'mega'].forEach( cap =>
-      fetchByCapSize(cap, (err, res) => err ? console.log(err) : localStorage.setItem(cap, JSON.stringify(res.Items))));
+  //  sort function for the individual columns
+  dynamicSort(property) {
+      let sortOrder = 1;
+      if (property[0] === "-") {
+          sortOrder = -1;
+          property = property.substr(1);
+      }
+      return function (a,b) {
+          let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+          return result * sortOrder;
+      }
   }
   render() {
     const inheritedDimensions = this.state.width;
@@ -56,7 +64,7 @@ export default class extends React.Component {
           sortDirection={this.state.sortDirection}
           ref={this.Table}
           sort={(d)=> {
-            data = (this.state.asc === true) ? data.sort(dynamicSort(d.sortBy)) : data.sort(dynamicSort(d.sortBy)).reverse();
+            data = (this.state.asc === true) ? data.sort(this.dynamicSort(d.sortBy)) : data.sort(this.dynamicSort(d.sortBy)).reverse();
             this.setState({ data: data, asc: !this.state.asc })
           }}
           >
@@ -79,7 +87,7 @@ export default class extends React.Component {
           label='tick'
           dataKey='tick'
           width={this.state.width * this.state.stylesheet['tick']}
-          cellRenderer ={({ cellData }) => <div style={{backgroundColor: perc2color(cellData), width: "1em", height: "1em"}}></div>}
+          cellRenderer ={({ cellData }) => <div style={{backgroundColor: colorGradientFunction(cellData), width: "1em", height: "1em"}}></div>}
           />
         <Column
           label='bidSize'
@@ -104,35 +112,3 @@ export default class extends React.Component {
     }
   }
 }
-
-
-function perc2color(perc) {
-	var r, g, b = 0;
-	if(perc < .50) {
-		r = 255;
-		g = Math.round(5.1 * perc);
-	}
-	else {
-		g = 255;
-		r = Math.round(510 - 5.10 * perc);
-	}
-	var h = r * 0x10000 + g * 0x100 + b * 0x1;
-	if (perc === 0) { return "none" }
-  else { return '#' + ('000000' + h.toString(16)).slice(-6) };
-}
-
-function dynamicSort(property) {
-    var sortOrder = 1;
-    if(property[0] === "-") {
-        sortOrder = -1;
-        property = property.substr(1);
-    }
-    return function (a,b) {
-        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-        return result * sortOrder;
-    }
-}
-
-
-
-//https://github.com/bvaughn/react-virtualized/issues/817

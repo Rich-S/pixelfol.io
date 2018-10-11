@@ -1,3 +1,5 @@
+//  Kinesis function that reads from the stream
+
 const sdkPack = require('../src/Config.js').sdkPack;
 const deBuffer = require('../services/deBuffer.js').deBuffer;
 const kinesis = sdkPack.kinesis;
@@ -5,8 +7,6 @@ const updateIntoDynamo = require('../dynamoDB/updateIntoDynamo.js').updateIntoDy
 
 const streamName = "iex-live";
 const tableName = 'iex-stock-universe';
-
-
 
 function consumerFunction() {
   kinesis.describeStream({ StreamName: streamName }, function(err, streamData) {
@@ -49,7 +49,11 @@ function consumerFunction() {
 }
 
 consumerFunction()
+
 /*
+
+Example of a raw payload
+
 { symbol: 'SAUC',
    sector: 'consumerservices',
    securityType: 'commonstock',
@@ -63,5 +67,6 @@ consumerFunction()
    lastSaleTime: 1538767105068,
    volume: 200,
    marketPercent: 0.00168,
-   seq: 13 },
+   seq: 13 }
+
 */

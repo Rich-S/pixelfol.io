@@ -1,3 +1,5 @@
+//  Kinesis configurations for the producer and consumer functions
+
 const kinesis = require('../src/Config.js').sdkPack.kinesis;
 const streamName = "iex-live",
   //  Number of shards

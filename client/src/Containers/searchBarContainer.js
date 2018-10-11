@@ -13,8 +13,8 @@ class SearchBarContainer extends React.Component {
   }
   handleSubmit(event) {
     if(event.keyCode === 13) {
-      let text = this.state.text;
-      this.setState({ text: "" },symbolsActions.addNewItem(text))
+      let text = this.state.text.toUpperCase();
+      this.setState({ text: "" }, symbolsActions.addNewItem(text))
     }
   }
   render() {

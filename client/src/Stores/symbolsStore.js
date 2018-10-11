@@ -8,7 +8,7 @@ const fundHoldings = require('../assets/fundHoldings.json');
 const CHANGE = 'CHANGE';
 
 let symbols = [];
-let fundKeys = [];//['AWSHX', VISVX', 'VTSMX'];
+let fundKeys = [];
 
 class SymbolsStore extends EventEmitter {
   constructor() {
@@ -44,10 +44,15 @@ class SymbolsStore extends EventEmitter {
     fundKeys.splice(fundKeys.indexOf(item), 1);
     this.emit(CHANGE);
   }
+  fetchUniverse() {
+    
+  }
   getUniverse() {
     let allCaps = ['nano', 'micro', 'small', 'mid', 'large', 'mega'].map(d => JSON.parse(localStorage[d]))
-    return [].concat.apply([], allCaps);
-    //return JSON.parse(localStorage.universe);
+    return [].concat.apply([], allCaps).map(d=>{
+      let tick = ((d.bidSize === 0) || (d.askSize === 0)) ? 0 : (d.bidSize/d.askSize);
+      return Object.assign(d, {tick: tick});
+    })
   }
   getCap(capSize, width, height) {
     let data = JSON.parse(localStorage[capSize]);

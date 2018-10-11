@@ -3,15 +3,13 @@ import './App.css'
 import WidgetContainer from './Containers/widgetContainer';
 import MatrixSlider from './Containers/MatrixSlider';
 import Table from './Containers/table';
-import fetchByCapSize from './Services/fetchByCapSize';
+import fetchIntoMem from './Services/fetchIntoMem';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    setInterval(()=>{
-      ['nano', 'micro', 'small', 'mid', 'large', 'mega'].forEach( cap =>
-        fetchByCapSize(cap, (err, res) => err ? console.log(err) : localStorage.setItem(cap, JSON.stringify(res.Items))));
-    },1000)
+    //  fetch from dynamoDB before the app renders
+    fetchIntoMem()
   }
   render() {
     return (

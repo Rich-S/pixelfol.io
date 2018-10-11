@@ -9,10 +9,7 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: SymbolsStore.getUniverse().map(d=>{
-        let tick = ((d.bidSize === 0) || (d.askSize === 0)) ? 0 : (d.bidSize/d.askSize);
-        return Object.assign(d, {tick: tick});
-      }),
+      data: SymbolsStore.getUniverse(),
       asc: true,
       stylesheet: {
         symbol: 1/9,
@@ -44,7 +41,6 @@ export default class extends React.Component {
       fetchByCapSize(cap, (err, res) => err ? console.log(err) : localStorage.setItem(cap, JSON.stringify(res.Items))));
   }
   render() {
-    console.log(this.state.data)
     const inheritedDimensions = this.state.width;
     if (inheritedDimensions) {
       let data = this.state.data;

@@ -6,9 +6,10 @@ const tableNameA = 'iex-stock-universe';
 const tableNameB = 'fund-universe';
 
 
-//  every morning
+//  every morning a new data batch populated into the persistance layer
 createTemplate()
-  .then( allListedStocks => allListedStocks.forEach( securityPayload => writeIntoDynamo(securityPayload, tableNameA)))
+  .then(d => console.log(d.length))
+  //.then( allListedStocks => allListedStocks.forEach( securityPayload => writeIntoDynamo(securityPayload, tableNameA)))
 
-// createHoldingsTemplate()
+//createHoldingsTemplate()
 //  .then( allFundsAndHoldings => allFundsAndHoldings.forEach( fundPayload => writeIntoDynamo(fundPayload, tableNameB) ))

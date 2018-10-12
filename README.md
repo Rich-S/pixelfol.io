@@ -18,3 +18,5 @@ The securities list updates daily - it is then compiled with the mutual fund hol
 
 Additionally, the application incorporates components of event-driven architecture - Streaming starts and shuts down when the market opens and closes, respectively, through daemonized processes on an AWS:EC2 instance. 
 
+
+

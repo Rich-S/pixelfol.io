@@ -79,23 +79,23 @@ export default class extends React.Component {
           width={this.state.width * this.state.stylesheet['name']}
           />
         <Column
-          label='lastSalePrice'
+          label='price'
           dataKey='lastSalePrice'
           width={this.state.width * this.state.stylesheet['lastSalePrice']}
           />
         <Column
-          label='tick'
+          label='bid/ask'
           dataKey='tick'
           width={this.state.width * this.state.stylesheet['tick']}
           cellRenderer ={({ cellData }) => <div style={{backgroundColor: colorGradientFunction(cellData), width: "1em", height: "1em"}}></div>}
           />
         <Column
-          label='bidSize'
+          label='bids'
           dataKey='bidSize'
           width={this.state.width * this.state.stylesheet['bidSize']}
           />
         <Column
-          label='askSize'
+          label='asks'
           dataKey='askSize'
           width={this.state.width * this.state.stylesheet['askSize']}
           />

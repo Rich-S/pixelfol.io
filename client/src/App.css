@@ -1,81 +1,51 @@
 * {
-  color: lightgray;
+  color: white;
   background: #383838;
-}
-
-div {
-  /*margin: 0;
-  padding: 0;*/
   font-family: sans-serif;
 }
-div.App {
+
+.App {
   display: flex;
   flex-wrap: nowrap;
-  justify-content: space-evenly;
   align-content: space-around;
   justify-content: flex-start;
 }
 
-div.App-Partition-B {
+.App.left {
+  width: 35vw;
+  height: 90vh; /* Navbar takes 10vh height */
+}
+
+.App.right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  width: 65vw;
+  height: 90vh;
+}
+
+.App.right.select-widget {
   display: flex;
   justify-content: space-evenly;
+  align-content: flex-start;
+  width: 65vw;
+  height: 15vh;
 }
-.Widget {
-  width: 97.5vw;
-  height: 12.5vh;
+
+.App.right.select-widget > #select-container {
+  width: 25vw;
+  height: 10vh;
+  margin: 1em;
 }
-.Matrix {
+
+.App.right.select-widget > #chips-container {
   width: 40vw;
-  height: 85vh;
+  height: 15vh;
+  padding-left: 1em;
+  overflow-y: scroll;
 }
-.Heatmap {
-  background: white;
-}
+
 .Table {
-  width: 62.5vw;
-  height: 85vh;
-}
-.leftPanel, .Heatmap {
-  width: 35vw;
-  height: 65vh;
-}
-.input-field {
-  width: 100%;
-}
-/* label focus color */
-.input-field input[type=text]:focus + label {
-  color: gainsboro!important;
-  font-size: 1em;
-  padding: none;
-}
-/* label underline focus color */
-.input-field input[type=text]:focus {
-  border: none;
-  border-bottom: 1px solid purple;
-  box-shadow: 0 1px 0 0 purple;
-  box-sizing: border-box;
-  font-size: 2em;
-}
-.section-search input.autocomplete {
-  color: #000;
-}
-.dropdown-content li>a, .dropdown-content li>span {
-  color: #383838!important;
-  background: none;
-  border: none;
-}
-#autocomplete-0 {
-  width: 100%;
-}
-.autocomplete-content li {
-  color: purple!important;
-  background: none;
-}
-.autocomplete-content li .highlight {
-  color: purple!important;
-  background: none;
-}
-nav {
-  background: none;
-  padding: 1em;
+  width: 65vw;
+  height: 70vh; /* navbar + select-widget + table-widget = 10 + 15 + 75 = 100 */
 }

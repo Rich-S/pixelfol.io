@@ -1,16 +1,17 @@
 import React from 'react';
+import { Autocomplete } from 'react-materialize';
 import symbolsActions from '../Actions/symbolsActions';
-import { Autocomplete, Navbar, NavItem, Row } from 'react-materialize';
+import './selectContainer.css';
 import fundHoldings from '../assets/fundHoldings.json';
 
 class SelectContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { text: "", data: this.hashify(fundHoldings) };
+    this.state = { placeholder: 'Find Funds', data: this.hashify(fundHoldings) };
     this.onSelect = this.onSelect.bind(this);
   }
-  onSelect(event) {
-    symbolsActions.addNewItem(event.target.value)
+  onSelect(value) {
+    symbolsActions.addNewItem(value);
   }
   hashify(obj) {
     let hash = {};
@@ -19,12 +20,12 @@ class SelectContainer extends React.Component {
   }
   render() {
     return (
-      <Row id={this.props.id}>
-        <Autocomplete
-          placeholder='Find Funds'
-          data={this.state.data}
-          onSelect={this.onSelect} />
-      </Row>
+      <Autocomplete
+        id={this.props.id}
+        placeholder={this.state.placeholder}
+        data={this.state.data}
+        onAutocomplete={this.onSelect}
+         />
     );
   }
 }

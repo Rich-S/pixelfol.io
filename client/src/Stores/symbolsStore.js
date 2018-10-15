@@ -33,9 +33,11 @@ class SymbolsStore extends EventEmitter {
   // Adds a new item to the list and emits a CHANGED event.
   _addNewItem(item) {
     if (fundHoldings[item]) {
-      fundHoldings[item].forEach(d=>symbols.push(d));
-      fundKeys.push(item);
-      this.emit(CHANGE);
+      if (fundKeys.includes(item) === false) {
+        fundKeys.push(item);
+        fundHoldings[item].forEach(d=>symbols.push(d));
+        this.emit(CHANGE);
+      };
     }
   }
   // Removes the item from the list and emits a CHANGED event.

@@ -1,6 +1,18 @@
-import * as d3 from 'd3';
+import React from 'react';
+import { Treemap } from "d3plus-react";
 
-function renderChart(element) {
+const methods = {
+  groupBy: "id",
+  size: d => d.value
+};
+
+const TreemapComponent = (props) => <Treemap config={Object.assign(props.data, methods)} />;
+
+export default TreemapComponent;
+
+/*import * as d3 from 'd3';
+
+function treemap(element) {
   var data = {
     "name": "England",
     "children": [
@@ -320,16 +332,18 @@ function renderChart(element) {
   var chartObj = drawChart();
   var svg = d3.select(element);
   var rect = svg.node().getBoundingClientRect();
-  var width = rect.width, height = rect.height;
+  var Width = rect.width, Height = rect.height;
   //  call chart Object
   var chart = svg.datum(data).call(chartObj);
   function drawChart() {
     var margins = {
-      top: height * .05,
-      right: width * .05,
-      bottom: height * .05,
-      left: width * .05
+      top: Math.floor(Height * .05),
+      right: Math.floor(Width * .05),
+      bottom: Math.floor(height * .05),
+      left: Math.floor(width * .05)
     };
+    let width = Width - margins.left - margins.right,
+      height = Height - margins.top - margins.bottom;
     function chart(selection) {
       selection.each(function(data) {
         var svg = d3
@@ -374,7 +388,7 @@ function renderChart(element) {
   }
 }
 
-export default renderChart;
+export default treemap;
 /*
 const data = [
   {

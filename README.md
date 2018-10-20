@@ -5,7 +5,7 @@ Pixelfol.io is an investment research tool that creates a watchlist of stocks th
 
 
 # The Application
-[pixelfol.io](www.pixelfol.io)
+[pixelfol.io](https://www.pixelfol.io)
 
 [Slides](https://docs.google.com/presentation/d/1CrwbVI4eQodna5-cx-RkSXVMfS_C2x5do9JFCapg8ho/edit#slide=id.g35f391192_00)
 
